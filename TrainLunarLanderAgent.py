@@ -60,7 +60,7 @@ for episode_number in range(num_episodes):
         next_state, reward, done, truncated, meta_data = env.step(action)
         next_state = torch.tensor(next_state)
         next_state = expand_state_dims(next_state)
-        dqn.store_transition(state, action, reward, next_state, done, episode_number)
+        dqn.store_transition(state, action, reward, next_state, done, time_step_number)
 
         state = next_state
         total_return += reward

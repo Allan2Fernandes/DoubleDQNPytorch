@@ -6,7 +6,7 @@ import torch
 from DQN import DQN
 from collections import deque
 
-environment_names = ["MountainCar-v0", 'CartPole-v1']
+environment_names = ["MountainCar-v0", 'CartPole-v1', 'Acrobot-v1']
 
 if torch.cuda.is_available():
     device = torch.device('cuda')
@@ -20,6 +20,7 @@ num_timesteps = 20000
 batch_size = 16
 env = gym.make(environment_names[1], render_mode='human')
 action_size = env.action_space.n
+print(action_size)
 state_size = env.observation_space.shape[0]
 dqn = DQN(action_size=action_size, state_size=state_size, device=device)
 num_completed_steps = 0
@@ -31,7 +32,7 @@ def expand_state_dims(state):
     state = state.to(device)
     return state
 
-for episode_number in range(1000):
+for episode_number in range(num_episodes):
     total_return = 0
     init_state = env.reset()[0]
     state = init_state
@@ -45,7 +46,8 @@ for episode_number in range(1000):
 
         next_state, reward, done, max_steps, meta_data = env.step(action)
         next_state = expand_state_dims(next_state)
-        dqn.store_transition(state, action, reward, next_state, done, episode_number)
+
+        dqn.store_transition(state, action, reward, next_state, done, time_step)
 
         state = next_state
         total_return += reward
@@ -58,8 +60,9 @@ for episode_number in range(1000):
         if len(dqn.replay_buffer) > batch_size:
             dqn.train_double_DQN(batch_size=batch_size)
             pass
+        dqn.decay_epsilon()
         pass
-    dqn.decay_epsilon()
+
 
 
 
