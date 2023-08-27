@@ -6,7 +6,8 @@ import os
 import gymnasium as gym
 from Q_Network import Q_Network
 
-models_directory = "C:/Users/Allan/Desktop/Models/LunarLanderModels2"
+#models_directory = "C:/Users/Allan/Desktop/Models/LunarLanderModels2"
+models_directory = "LunarLanderModels"
 env = gym.make(
     "LunarLander-v2",
     render_mode='human',
@@ -36,7 +37,7 @@ def get_action(model, state):
         pass
     return Q_values
 
-model_path = os.path.join(models_directory, '1745.pt')
+model_path = os.path.join(models_directory, '1409.pt')
 model = Q_Network(device=device, action_space_size=action_size, observation_space_size=state_size).to(device)
 model.load_state_dict(torch.load(model_path))
 model_episode_rewards = []

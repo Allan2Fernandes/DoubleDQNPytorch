@@ -21,7 +21,7 @@ device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 device = torch.device('cpu')
 action_size = env.action_space.n
 state_size = env.observation_space.shape[0]
-episodes_to_test = 300
+episodes_to_test = 50
 max_time_steps = sys.maxsize
 
 def preprocess_state(state):
