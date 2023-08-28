@@ -37,7 +37,7 @@ def get_action(model, state):
         pass
     return Q_values
 
-model_path = os.path.join(models_directory, '1409.pt')
+model_path = os.path.join(models_directory, '150.pt')
 model = Q_Network(device=device, action_space_size=action_size, observation_space_size=state_size).to(device)
 model.load_state_dict(torch.load(model_path))
 model_episode_rewards = []
